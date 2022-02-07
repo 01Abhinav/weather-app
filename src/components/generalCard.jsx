@@ -1,15 +1,13 @@
-import React, { useState } from "react";
-
 const GeneralCard = (props) => {
-  const { cardTitle, cardValue, cardUnit, cardStatus } = props;
+  const { title, body, unit, footer } = props;
   return (
-    <div class="card" style="width: 18rem;">
-      <div class="card-body">
-        <h5 class="card-title">{cardTitle}</h5>
-        <p class="card-text">
-          {cardValue} {cardUnit}
+    <div className="card" style={{ width: "18rem" }}>
+      <div className="card-body">
+        <h5 className="card-title">{title}</h5>
+        <p className="card-text">
+          {body} {unit}
         </p>
-        <p class="card-text">{cardStatus}</p>
+        <p className="card-text">{footer}</p>
       </div>
     </div>
   );

@@ -1,34 +1,54 @@
-import React, { useState } from "react";
-const axios = require("axios");
+import { useState } from "react";
+import { getWeatherFromLocation } from "../services/weatherService";
+import axios from "axios";
 
 const SearchAreaLoc = (props) => {
   const [loc, setLoc] = useState("");
   const { setInfo } = props;
-  const url2 = `https://api.openweathermap.org/data/2.5/weather?q=${loc}&APPID=${process.env.REACT_APP_API_KEY}`;
 
-  const onSubmitName = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.get(url2);
-      setInfo(res.data);
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
+    const info = await getWeatherFromLocation(loc);
+    setInfo(info);
   };
 
+  const setCurrentLoc = (e) => {
+    e.preventDefault();
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      axios
+        .get(
+          `https://us1.locationiq.com/v1/reverse.php?key=pk.bdcb7e53e421a0aac6d3409f8b64fed7&lat=${latitude}&lon=${longitude}&format=json`
+        )
+        .then((res) => setLoc(res.data.address.city))
+        .catch((err) => console.log(err));
+    });
+  };
   return (
     <>
       <form>
-        <input
-          type="text"
-          value={loc}
-          onChange={(e) => setLoc(e.target.value)}
-          placeholder="Location Name"
-        ></input>
-        <button type="submit" onClick={onSubmitName}>
-          {" "}
-          submit{" "}
+        <div class="input-group m-2">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="">
+              City Name
+            </span>
+          </div>
+          <input
+            type="text"
+            value={loc}
+            onChange={(e) => setLoc(e.target.value)}
+            class="form-control"
+          />
+        </div>
+        <button className="btn btn-dark m-2" onClick={setCurrentLoc}>
+          Get Current Location
+        </button>
+        <button
+          className="btn btn-success m-2"
+          type="submit"
+          onClick={handleSubmit}
+        >
+          Submit
         </button>
       </form>
     </>
