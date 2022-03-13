@@ -17,6 +17,7 @@ const SideDetailsBar = ({ info }) => {
     <>
       <div className="row m-2 display-1">{info?.name}</div>
       <div className="row m-2 display-6">
+        <br></br>
         {Math.round(info?.main.temp - 273)}
         {" °C"}
       </div>
