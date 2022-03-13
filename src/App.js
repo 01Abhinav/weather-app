@@ -1,56 +1,39 @@
-import logo from "./logo.svg";
-import "./App.css";
 import { useState, useEffect } from "react";
-
-import SearchAreaLoc from "./components/searchAreaLoc";
-import SearchArea from "./components/searchArea";
+import axios from "axios";
 
 import CardContainer from "./components/cardContainer";
+import SeachBar from "./components/searchBar";
+import SideDetailsBar from "./components/sideDetailsBar";
+import { ToastContainer } from "react-toastify";
 
-const axios = require("axios");
-function App() {
+import "react-toastify/dist/ReactToastify.css";
+import { getWeatherFromCoords } from "./services/weatherService";
+
+export default function App() {
   const [info, setInfo] = useState(null);
-  const [way, setWay] = useState(false);
-  // const [time, setTime] = useState(new Date());
 
-  console.log(way);
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      async ({ coords: { latitude, longitude } }) => {
+        const info = await getWeatherFromCoords(latitude, longitude);
+        console.log(info);
+        setInfo(info);
+      }
+    );
+  }, []);
+
+  useEffect(() => {
+    document.title = info?.name + " | Weather";
+  }, [info]);
+
   return (
     <div className="App row">
+      <ToastContainer />
       <div className="col-4 mt-4">
-        <div className="row m-2">
-          <div className="col-2">
-            <label className="switch">
-              <input
-                type="checkbox"
-                checked={way}
-                onChange={(e) => setWay(e.target.checked)}
-              />
-              <span className="slider round"></span>
-            </label>
-          </div>
-          <div className="col">
-            <h6>
-              {way
-                ? "Toggle to search by location name"
-                : "Toggle to search by coordinates"}
-            </h6>
-          </div>
-        </div>
-        <div className="row m-2">
-          {way ? (
-            <SearchArea setInfo={setInfo} />
-          ) : (
-            <SearchAreaLoc setInfo={setInfo} />
-          )}
-        </div>
-        <div className="row m-2 display-1">{info?.name}</div>
-        <div className="row m-2 display-6">
-          {Math.round(info?.main.temp - 273) + " "}
-        </div>
+        <SeachBar setInfo={setInfo} />
+        {info && <SideDetailsBar info={info} />}
       </div>
       <div className="col-8">{info && <CardContainer info={info} />}</div>
     </div>
   );
 }
-
-export default App;

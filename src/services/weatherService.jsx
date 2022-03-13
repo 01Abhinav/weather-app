@@ -5,13 +5,13 @@ const apiEndPoint = `https://api.openweathermap.org/data/2.5/weather?appid=${pro
 export async function getWeatherFromLocation(loc) {
   const url = apiEndPoint + `&q=${loc}`;
   const res = await http.get(url);
-  console.log(res.data);
+  // console.log(res.data);
   return res.data;
 }
 
 export async function getWeatherFromCoords(lat, lon) {
   const url = apiEndPoint + `&lat=${lat}&lon=${lon}`;
   const res = await http.get(url);
-  console.log(res.data);
+  // console.log(res.data);
   return res.data;
 }

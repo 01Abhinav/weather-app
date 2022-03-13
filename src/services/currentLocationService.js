@@ -1,19 +1,14 @@
-export const setCurrentLocCoords = (e) => {
-  e.preventDefault();
-  navigator.geolocation.getCurrentPosition((position) => {
-    const { latitude, longitude } = position.coords;
-  });
-};
+import http from "./http";
 
-export const setCurrentLocName = (e) => {
-  e.preventDefault();
-  navigator.geolocation.getCurrentPosition((position) => {
-    const { latitude, longitude } = position.coords;
-    axios
-      .get(
-        `https://us1.locationiq.com/v1/reverse.php?key=pk.bdcb7e53e421a0aac6d3409f8b64fed7&lat=${latitude}&lon=${longitude}&format=json`
-      )
-      // .then((res) =>)
-      .catch((err) => console.log(err));
-  });
-};
+const apiEndPoint = `https://us1.locationiq.com/v1/reverse.php?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&format=json`;
+
+export async function getPlaceFromCoords({ latitude, longitude }) {
+  const url = apiEndPoint + `&lat=${latitude}&lon=${longitude}`;
+  try {
+    const res = await http.get(url);
+    // console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+}
