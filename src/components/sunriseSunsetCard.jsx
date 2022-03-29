@@ -10,7 +10,10 @@ const SunriseSunsetCard = ({ sunrise, sunset }) => {
   };
 
   return (
-    <div className="card" style={{ width: "18rem" }}>
+    <div
+      className="card"
+      style={{ width: "18rem", "background-color": "#FDAF75" }}
+    >
       <div className="card-body">
         <h5 className="card-title">Sunrise & Sunset</h5>
         <p className="card-text">{getTime(sunrise)}</p>

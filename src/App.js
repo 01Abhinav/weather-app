@@ -27,7 +27,7 @@ export default function App() {
   }, [info]);
 
   return (
-    <div className="App row">
+    <div className="App row" style={{ "background-color": "#E4D1B9" }}>
       <ToastContainer />
       <div className="col-4 mt-4">
         <SeachBar setInfo={setInfo} />

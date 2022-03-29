@@ -14,7 +14,7 @@ const SideDetailsBar = ({ info }) => {
     return weekday[day];
   }
   return (
-    <>
+    <div>
       <div className="row m-2 display-1">{info?.name}</div>
       <div className="row m-2 display-6">
         <br></br>
@@ -22,7 +22,7 @@ const SideDetailsBar = ({ info }) => {
         {" °C"}
       </div>
       <div className="row m-2 display-5">{day()}</div>
-    </>
+    </div>
   );
 };
 
